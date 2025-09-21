@@ -1,2 +1,2 @@
-# Fundamental_-algorithms_mai
+# Fundamental_algorithms_mai
 Решение задач по предмету "Фундаментальные алгоритмы"
