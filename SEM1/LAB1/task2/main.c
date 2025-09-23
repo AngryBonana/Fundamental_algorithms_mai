@@ -19,8 +19,8 @@ int main (void)
 
     
 
-    if (repeats <= 0) {
-        printf("ERROR: Ivalid Input\nNumber must be more than 0\n");
+    if (repeats <= 0 || repeats > 1000) {
+        printf("ERROR: Ivalid Input\nNumber must be more than 0 and less than 1001\n");
         return INVALID_INPUT;
     }
 
