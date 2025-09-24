@@ -64,7 +64,7 @@ return_code numValidation(char *str, int *num)
 return_code flagValidation(char *str, char *c)
 {
     char tmp = *str;
-    if ((!(tmp == '-') && !(tmp == '/')) || *(str + 2) != '\0') // Если первый символ не - или / или если третий символ не конец строки
+    if ((!(tmp == '-') && !(tmp == '/')) || *(str + 1) == '\0' || *(str + 2) != '\0')
     {
         return INVALID_FLAG;
     }
