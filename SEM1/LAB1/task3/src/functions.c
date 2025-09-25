@@ -201,7 +201,7 @@ bool triangle(const float a, const float b, const float c, const float e)
 solution_code quadro(const float a, const float b, const float c, const float e, double *ans1, double *ans2)
 {
     double da = a, db = b, dc = c;
-    if(fabs(da) < e && fabs(db) < e && fabs(dc) < c)
+    if(fabs(da) < e && fabs(db) < e && fabs(dc) < e)
     {
         return INFINITY_SOLUTION;
     }
