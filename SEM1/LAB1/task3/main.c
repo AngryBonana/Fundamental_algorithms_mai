@@ -187,4 +187,6 @@ int main (int argc, char *argv[])
            printf("ERROR: Invalid Flag\nSupported flags: -m, -t, -q\n");
             return  INVALID_FLAG; 
     }
+
+    return 0;
 }
