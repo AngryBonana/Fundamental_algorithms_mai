@@ -70,7 +70,9 @@ int main (void)
     }
 
     free(numbers);
+    numbers = NULL;
     free(result);
+    result = NULL;
 
     return 0;
 }
