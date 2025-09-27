@@ -98,6 +98,7 @@ double lim_t(const double e)
 
 
     free(nums);
+    nums = NULL;
     return next;
 }
 
