@@ -38,3 +38,6 @@ solution_code quadro(const float a, const float b, const float c, const float e,
 
 
 void printAnswer(solution_code code_ans, const float a, const float b, const float c, const double ans1, const double ans2);
+
+
+int permutations(float *ans, const double a, const double b, const double c, const double e);
