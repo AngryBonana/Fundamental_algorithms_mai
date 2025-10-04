@@ -234,20 +234,65 @@ solution_code quadro(const float a, const float b, const float c, const float e,
 
 void printAnswer(solution_code code_ans, const float a, const float b, const float c, const double ans1, const double ans2)
 {
-    printf("Уравнение с коэффициентами %.2f, %.2f, %.2f ", a, b, c);
+    printf("Уравнение с коэффициентами %f, %f, %f ", a, b, c);
 
                 switch (code_ans) {
                     case NO_SOLUTION:
-                        printf("не имеет решения\n\n");
+                        printf("не имеет решения ");
                         break;
                     case INFINITY_SOLUTION:
-                        printf("имеет бесконечно много решений\n\n");
+                        printf("имеет бесконечно много решений ");
                         break;
                     case ONE_SOLUTION:
-                        printf("имеет корень %.2lf\n\n", ans1);
+                        printf("имеет корень %lf ", ans1);
                         break;
                     case TWO_SOLUTION:
-                        printf("имеет два корня %.2lf и %.2lf\n\n", ans1, ans2);
+                        printf("имеет два корня %lf и %lf ", ans1, ans2);
                         break;
                 }
+    printf("при заданном e\n\n");
+}
+
+
+int permutations(float *ans, const double a, const double b, const double c, const double e)
+{
+    int combinations = 1;
+    ans[0] = a;
+    ans[1] = b;
+    ans[2] = c;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            if (i == j)
+            {
+                continue;
+            }
+            for (int k = 0; k < 3; k++)
+            {
+                if (k == i || k == j)
+                {
+                    continue;
+                }
+                for (int p = 0; p < combinations; p++)
+                {
+                    if (fabs(ans[0 + p * 3] - ans[i]) < e && fabs(ans[1 + p * 3] - ans[j]) < e && fabs(ans[2 + p * 3] - ans[k]) < e)
+                    {
+                        break;
+                    }
+                    if (p == combinations - 1)
+                    {
+                        ans[0 + 3 * combinations] = ans[i];
+                        ans[1 + 3 * combinations] = ans[j];
+                        ans[2 + 3 * combinations] = ans[k];
+                        combinations++;
+                        break;
+                    }
+                }
+                
+            }
+        }
+    }
+
+    return combinations;
 }

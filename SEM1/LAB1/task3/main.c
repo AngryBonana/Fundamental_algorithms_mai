@@ -162,29 +162,20 @@ int main (int argc, char *argv[])
                 double ans1, ans2;
                 solution_code code_ans;
 
-                code_ans = quadro(a, b, c, e, &ans1, &ans2);
-                printAnswer(code_ans, a, b, c, ans1, ans2);
+                float perms[18] = {};
 
-                code_ans = quadro(a, c, b, e, &ans1, &ans2);
-                printAnswer(code_ans, a, c, b, ans1, ans2);
-
-                code_ans = quadro(b, a, c, e, &ans1, &ans2);
-                printAnswer(code_ans, b, a, c, ans1, ans2);
-
-                code_ans = quadro(b, c, a, e, &ans1, &ans2);
-                printAnswer(code_ans, b, c, a, ans1, ans2);
-
-                code_ans = quadro(c, b, a, e, &ans1, &ans2);
-                printAnswer(code_ans, c, b, a, ans1, ans2);
-
-                code_ans = quadro(c, a, b, e, &ans1, &ans2);
-                printAnswer(code_ans, c, a, b, ans1, ans2);
+                int combs = permutations(perms, a, b, c, e);
+                for (int i = 0; i < combs; i++)
+                {
+                    code_ans = quadro(perms[0 + i * 3], perms[1 + i * 3], perms[2 + i * 3], e, &ans1, &ans2);
+                    printAnswer(code_ans, perms[0 + i * 3], perms[1 + i * 3], perms[2 + i * 3], ans1, ans2);
+                }
             }
             break;
 
 
         default:
-           printf("ERROR: Invalid Flag\nSupported flags: -m, -t, -q\n");
+            printf("ERROR: Invalid Flag\nSupported flags: -m, -t, -q\n");
             return  INVALID_FLAG; 
     }
 
