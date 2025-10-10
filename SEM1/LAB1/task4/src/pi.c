@@ -1,27 +1,40 @@
 #include "../include/pi.h"
 #include <math.h>
-#include "../include/mathFunctions.h"
 
-double lim(const int n)
+double lim(const int n, long long fact, long long fact2)
 {
-    double res = pow(pow(2, n) * factorial(n), 4);
-    res /= (double)(n * pow(factorial(2 * n), 2));
+    double res = pow(16, n) * pow(fact, 4);
+    res /= (n * pow(fact2, 2));
     return res;
 }
 
-double pi_lim(const double e)
+return_code pi_lim(const double e, double *ans)
 {
-    double prev = lim(1);
-    double next = lim(2);
-    int n = 3;
-    while(fabs(next - prev) > e && n < 11)
-    {
+    double prev = lim(0, 1, 1);
+    double next = lim(1, 1, 2 );
+    int n = 2;
+    long long fact = 1;
+    long long fact2 = 2;
+    while(fabs(next - prev) > e)
+    {   
+        fact *= n;
+        fact2 = fact;
+        for (int i = n + 1; i <= 2 * n; i++)
+        {
+            fact2 *= i;
+        }
+        if (fact2 < 0)
+        {
+            *ans = next;
+            return ACCURACY_ERROR;
+        }
         prev = next;
-        next = lim(n);
+        next = lim(n, fact, fact2);
         n++;
     } 
 
-    return next;
+    *ans = next;
+    return OK;
 
 }
 

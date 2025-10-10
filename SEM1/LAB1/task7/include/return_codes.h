@@ -4,6 +4,7 @@
 typedef enum {
     OK,
     WRONG_ARGUMENT,
+    MEMORY_ERROR,
     INVALID_PATH,
     WRONG_PTR,
     UNEXPECTED_CHAR,

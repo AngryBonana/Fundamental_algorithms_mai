@@ -1,7 +1,9 @@
 #ifndef PI_H
 #define PI_H
 
-double pi_lim(const double e);
+#include "return_codes.h"
+
+return_code pi_lim(const double e, double *ans);
 
 double pi_sum(const double e);
 
