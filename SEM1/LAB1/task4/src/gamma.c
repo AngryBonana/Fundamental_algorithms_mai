@@ -3,41 +3,64 @@
 #include "../include/mathFunctions.h"
 #include <stdlib.h>
 
-double for_lim_gamma(const int m, const int k)
+
+double for_lim_gamma(const int m, const int k, const long long fact)
 {
     double res = (double)combinations(m, k) * pow(-1, k) / k;
-    res *= log(factorial(k));
+    res *= log(fact);
     return res;
 }
 
-double limit_gamma(const int m)
+return_code limit_gamma(const int m, double *ans)
 {   
     if (m == 0)
     {
         return 0;
     }
     double res = 0;
+    long long fact = 1;
     for (int k = 1; k <= m; k++)
     {
-        res += for_lim_gamma(m, k);
+        fact *= k;
+        if (fact < 0)
+        {
+            return ACCURACY_ERROR;
+        }
+        res += for_lim_gamma(m, k, fact);
     }
 
-    return res;
+    *ans = res;
+    return OK;
 }
 
-double gamma_lim(const double e)
+return_code gamma_lim(const double e, double *ans)
 {
-    double prev = limit_gamma(2);
-    double next = limit_gamma(3);
+    double prev;
+    double next;
+    limit_gamma(2, &prev);
+    limit_gamma(3, &next);
     int m = 4;
-    while(fabs(next - prev) > e && m < 20)
+    while(fabs(next - prev) > e)
     {
         prev = next;
-        next = limit_gamma(m);
-        m++;
+        switch(limit_gamma(m, &next))
+        {
+            case ACCURACY_ERROR:
+            {
+                *ans = next;
+                return ACCURACY_ERROR;
+            }
+            break;
+            default:
+                m++;
+                continue;
+                break;
+
+        }
     }
 
-    return next;
+    *ans = next;
+    return OK;
 }
 
 double row_gamma(const int n, const double pi)
@@ -82,10 +105,8 @@ double lim_c(const int t, int *nums)
     return res;
 }
 
-double lim_t(const double e)
+double lim_t(const double e, int *nums, int n)
 {
-    int n = 1e6;
-    int *nums = primeNums(n);
     double prev = lim_c(200, nums);
     double next = lim_c(300, nums);
     int t = 400;
@@ -97,14 +118,21 @@ double lim_t(const double e)
     }
 
 
-    free(nums);
-    nums = NULL;
+    
     return next;
 }
 
 double gamma_eq(const double x, const double e)
 {   
-    double ans = exp(-x) - lim_t(e);
+    int n = 1e6;
+    int *nums = primeNums(n);
+    if (nums == NULL)
+    {
+        return 0;
+    }
+    double ans = exp(-x) - lim_t(e, nums, n);
+    free(nums);
+    nums = NULL;
     return ans;
 }
 

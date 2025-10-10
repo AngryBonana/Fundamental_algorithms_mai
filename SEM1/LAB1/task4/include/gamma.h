@@ -1,7 +1,9 @@
 #ifndef GAMMA_H
 #define GAMMA_H
 
-double gamma_lim(const double e);
+#include "return_codes.h"
+
+return_code gamma_lim(const double e, double *ans);
 
 double gamma_sum(const double e, const double pi);
 
