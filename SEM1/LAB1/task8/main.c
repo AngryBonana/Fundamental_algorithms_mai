@@ -45,14 +45,16 @@ int main (void)
         if (count == size)
         {
             size *= 2;
-            nums = (long long *)realloc(nums, sizeof(long long) * size);
-            if (nums == NULL)
+            long long *tmp = (long long *)realloc(nums, sizeof(long long) * size);
+            if (tmp == NULL)
             {
                 printf("ERROR: Memory Error\nProgram can't get memory\n");
                 free(nums);
                 nums = NULL;
                 return MEMORY_ERROR;
             }
+            nums = tmp;
+            tmp = NULL;
         }
 
         if(convert_to_dec(input, base, &nums[count]) == LL_OVERFLOW)
