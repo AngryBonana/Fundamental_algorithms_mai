@@ -33,7 +33,7 @@ int main(int argc, char * argv[])
 
     }
     
-    FILE *input_file = fopen(argv[2], "r");
+    FILE *input_file = (FILE *)fopen(argv[2], "r");
     if (input_file == NULL)
     {
         printf("ERROR: Invalid Path\nCan't open file '%s'\n", argv[2]);
@@ -43,7 +43,7 @@ int main(int argc, char * argv[])
     FILE *output_file = NULL;
     if (n_flag)
     {
-        output_file = fopen(argv[3], "w");
+        output_file = (FILE *)fopen(argv[3], "w");
         if (output_file == NULL)
         {
             printf("ERROR: Invalid Path\nCan't open file '%s'\n", argv[3]);
@@ -62,7 +62,7 @@ int main(int argc, char * argv[])
             input_file = NULL;
             return MEMORY_ERROR;
         }
-        output_file = fopen(name, "w");
+        output_file = (FILE *)fopen(name, "w");
         if (output_file == NULL)
         {
             printf("ERROR: Invalid Path\nCan't open file '%s'\n", name);
@@ -76,9 +76,11 @@ int main(int argc, char * argv[])
         name = NULL;
     }
 
+    return_code code;
     switch (flag) {
         case 'd':
-            if (d_flag(input_file, output_file) == NULL_PTR)
+            code = d_flag(input_file, output_file);
+            if (code == NULL_PTR)
             {
                 fclose(input_file);
                 fclose(output_file);
@@ -89,7 +91,8 @@ int main(int argc, char * argv[])
             }
             break;
         case 'i':
-            if (i_flag(input_file, output_file) == NULL_PTR)
+            code = i_flag(input_file, output_file) == NULL_PTR;
+            if (code == NULL_PTR)
             {
                 fclose(input_file);
                 fclose(output_file);
@@ -97,10 +100,20 @@ int main(int argc, char * argv[])
                 output_file = NULL;
                 printf("ERROR: NULL_PTR\nFunction got null_ptr argument\n");
                 return NULL_PTR;
+            }
+            else if (code == MEMORY_ERROR)
+            {
+                fclose(input_file);
+                fclose(output_file);
+                input_file = NULL;
+                output_file = NULL;
+                printf("ERROR: Memory Error\nProgram can't get memory\n");
+                return MEMORY_ERROR;
             }
             break;
         case 's':
-            if (s_flag(input_file, output_file) == NULL_PTR)
+            code = s_flag(input_file, output_file);
+            if (code == NULL_PTR)
             {
                 fclose(input_file);
                 fclose(output_file);
@@ -109,9 +122,19 @@ int main(int argc, char * argv[])
                 printf("ERROR: NULL_PTR\nFunction got null_ptr argument\n");
                 return NULL_PTR;
             }
+            else if (code == MEMORY_ERROR)
+            {
+                fclose(input_file);
+                fclose(output_file);
+                input_file = NULL;
+                output_file = NULL;
+                printf("ERROR: Memory Error\nProgram can't get memory\n");
+                return MEMORY_ERROR;
+            }
             break;
         case 'a':
-            if (a_flag(input_file, output_file) == NULL_PTR)
+            code = a_flag(input_file, output_file);
+            if (code == NULL_PTR)
             {
                 fclose(input_file);
                 fclose(output_file);
