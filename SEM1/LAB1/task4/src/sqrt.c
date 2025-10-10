@@ -1,4 +1,4 @@
-#include "../include/exponent.h"
+#include "../include/sqrt.h"
 #include <math.h>
 #include "../include/mathFunctions.h"
 
@@ -42,12 +42,8 @@ double sqrt_mult(const double e)
 }
 
 
-double sqrt_eq(const double e)
+double sqrt_eq(const double x, const double e)
 {
-    double step = 1.41;
-    while(fabs(step * step - 2) > e)
-    {
-        step += e;
-    }
-    return step;
+    double ans = x * x - 2;
+    return ans;
 }

@@ -1,4 +1,4 @@
-#include "../include/exponent.h"
+#include "../include/gamma.h"
 #include <math.h>
 #include "../include/mathFunctions.h"
 #include <stdlib.h>
@@ -56,14 +56,14 @@ double row_gamma(const int n, const double pi)
 
 double gamma_sum(const double e, const double pi)
 {
-    double prev = row_gamma(100000000, pi);
-    double next = row_gamma(100001000, pi);
-    int n = 100002000;
-    while(fabs(next - prev) > e)
+    double prev = row_gamma(1e7, pi);
+    double next = row_gamma(1e7 + 1e3, pi);
+    int n = 1e7 + 2e3;
+    while(fabs(next - prev) > e )
     {
         prev = next;
         next = row_gamma(n, pi);
-        n += 1000;
+        n += 1e3;
     }
 
     return next;
@@ -102,14 +102,14 @@ double lim_t(const double e)
     return next;
 }
 
-double gamma_eq(const double e)
+double gamma_eq(const double x, const double e)
 {   
-    double eq = lim_t(e);
-    double step = 0.577;
-    while(fabs(exp(-step) - eq) > e && step < 0.58)
-    {
-        step += e;
-    } 
+    double ans = exp(-x) - lim_t(e);
+    return ans;
+}
 
-    return step;
+double gamma_eq_d(const double x, const double e)
+{
+    double ans = -exp(-x);
+    return ans;
 }

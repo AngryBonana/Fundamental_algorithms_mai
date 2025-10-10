@@ -40,7 +40,7 @@ double exp_sum(const double e)
     double prev = row(0, 0);
     double next = row(prev, 1);
     int n = 2;
-    while(!(fabs(next - prev) < e) && n < 21)
+    while (!(fabs(next - prev) < e) && n < 21)
     {
         prev = next;
         next = row(prev, n);
@@ -51,15 +51,8 @@ double exp_sum(const double e)
 }
 
 
-double exp_eq(const double e)
+double exp_eq(const double x, const double e)
 {
-    double step = 2.71;
-    double tmp = log(step);
-    while(fabs(1 - tmp) > e && step < 2.72)
-    {
-        step += e;
-        tmp = log(step);
-        
-    }
-    return step;
+    double ans = log(x) - 1;
+    return ans;
 }

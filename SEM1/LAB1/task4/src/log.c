@@ -1,4 +1,4 @@
-#include "../include/exponent.h"
+#include "../include/log.h"
 #include <math.h>
 #include "../include/mathFunctions.h"
 
@@ -46,12 +46,8 @@ double log_sum(const double e)
     return next;
 }
 
-double log_eq(const double e)
+double log_eq(const double x, const double e)
 {
-    double step = 0.69;
-    while (fabs(exp(step) - 2) > e) {
-        step += e;
-    }
-
-    return step;
+    double ans = exp(x) - 2; 
+    return ans;
 }
