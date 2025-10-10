@@ -10,13 +10,13 @@ int main (int argc, char *argv[])
         printf("Using: ./program <input_file_path> <output_file_path>\n");
         return WRONG_ARGUMENT;
     }
-    FILE *input_file = fopen(argv[1], "r");
+    FILE *input_file = (FILE *)fopen(argv[1], "r");
     if (input_file == NULL)
     {
         printf("Can't open file '%s'\n", argv[1]);
         return INVALID_PATH;
     }
-    FILE *output_file = fopen(argv[2], "w");
+    FILE *output_file = (FILE *)fopen(argv[2], "w");
     if (input_file == NULL)
     {
         printf("Can't open file '%s'\n", argv[2]);
@@ -48,6 +48,17 @@ int main (int argc, char *argv[])
             output_file = NULL;
             return UNEXPECTED_CHAR;
         }
+        break;
+        case MEMORY_ERROR:
+        {
+            printf("ERROR: Memory Error\nProgrma can't get memory\n");
+            fclose(input_file);
+            fclose(output_file);
+            input_file = NULL;
+            output_file = NULL;
+            return MEMORY_ERROR;
+        }
+        break;
         default:
         {
             printf("ERROR: Unexpected Error!\nSomething goes wrong!\n");

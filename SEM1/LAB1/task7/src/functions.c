@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <stdlib.h>
+
 
 void print_result(FILE *output, char* str, int size)
 {
@@ -109,9 +111,33 @@ return_code find_and_print_base(FILE *input, FILE *output)
     bool isNumber = false;
     bool isMinus = false;
     int count = 0;
-    char num[100] = {};
+    int size = 20;
+    char *num = (char*)malloc(sizeof(char) * size);
+    if (num == NULL)
+    {
+        return MEMORY_ERROR;
+    }
+    clear_str(num, size);
     while ((tmp = toupper(getc(input))) != EOF)
     {
+        if (count == size)
+        {
+            size *= 2;
+            char *tmp = (char *)realloc(num, sizeof(char) * size);
+            if (tmp == NULL)
+            {
+                free(num);
+                num = NULL;
+                return MEMORY_ERROR;
+            }
+            num = tmp;
+            tmp = NULL;
+            for (int i = count; i < size; i++)
+            {
+                num[i] = '\0';
+            }
+
+        }
         if (tmp == ' ' || tmp == '\t' || tmp == '\n')
         {
             if (isNumber)
@@ -155,14 +181,6 @@ return_code find_and_print_base(FILE *input, FILE *output)
             num[count] = tmp;
             count++;
             isNumber = true;
-            if (count == 100)
-            {
-                print_result(output, num, count);
-                isNumber = false;
-                isMinus = false;
-                clear_str(num, count);
-                count = 0;
-            }
         }
         else  
         {
@@ -186,5 +204,8 @@ return_code find_and_print_base(FILE *input, FILE *output)
         count = 0;
     }
 
+
+    free(num);
+    num = NULL;
     return OK;
 }
