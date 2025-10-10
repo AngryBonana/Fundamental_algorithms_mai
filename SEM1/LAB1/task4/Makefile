@@ -6,4 +6,5 @@ all:
 	gcc-14 -c src/sqrt.c -o sqrt.o
 	gcc-14 -c src/gamma.c -o gamma.o
 	gcc-14 -c src/mathFunctions.c -o mathFunctions.o
-	gcc-14 main.o exponent.o pi.o log.o sqrt.o gamma.o mathFunctions.o -o program -lm
+	gcc-14 -c src/methods.c -o methods.o
+	gcc-14 main.o exponent.o pi.o log.o sqrt.o gamma.o mathFunctions.o methods.o -o program -lm

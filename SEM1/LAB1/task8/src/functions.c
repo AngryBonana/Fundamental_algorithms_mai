@@ -8,7 +8,7 @@ bool validation(int base, char *str)
     int code;
     for (int i = 0; str[i] != '\0'; i++)
     {
-        if (i == 0 && str[i] == '-')
+        if (i == 0 && str[i] == '-' && str[i + 1] != '\0')
         {
             continue;
         }

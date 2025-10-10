@@ -1,4 +1,4 @@
-#include "../include/exponent.h"
+#include "../include/pi.h"
 #include <math.h>
 #include "../include/mathFunctions.h"
 
@@ -49,11 +49,18 @@ double pi_sum(const double e)
 }
 
 
-double pi_eq(const double e)
+double pi_eq(const double x, const double e)
 {
-    double step = 3.14;
-    while (fabs(cos(step) + 1) > e && step < 3.15) {
-        step += e;
+    double ans = cos(x) + 1;
+    return ans;
+}
+
+double pi_eq_d(const double x, const double e)
+{
+    double ans = -sin(x);
+    if (fabs(ans) < e)
+    {
+        ans = e;
     }
-    return step;
+    return ans;
 }
