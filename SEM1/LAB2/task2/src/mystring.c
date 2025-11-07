@@ -260,9 +260,11 @@ size_t strskipdel(const char * str, const char * delim)
     return count;
 }
 
-static char * strtok_last_ptr = NULL;
 
-char *strtok(char *str, const char *delim) {
+char *strtok(char *str, const char *delim) 
+{
+    static char * strtok_last_ptr = NULL;
+
     if (str == NULL)
     {
         str = strtok_last_ptr;
