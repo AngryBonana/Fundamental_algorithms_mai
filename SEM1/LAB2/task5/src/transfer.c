@@ -29,7 +29,8 @@ return_code read_line_without_start_spaces(FILE * stream, char ** buf, size_t * 
         return END;
     }
 
-    while (1) {
+    while (1) 
+    {
         tmp = getc(stream);
         if (tmp == EOF || tmp == '\n')
         {
@@ -50,7 +51,8 @@ return_code read_line_without_start_spaces(FILE * stream, char ** buf, size_t * 
             *buf = t_ptr;
         }
 
-        (*buf)[pos++] = (char)tmp;
+        (*buf)[pos] = (char)tmp;
+        pos++;
     }
 }
 
