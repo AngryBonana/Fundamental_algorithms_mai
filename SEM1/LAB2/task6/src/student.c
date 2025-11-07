@@ -1,4 +1,5 @@
 #include "../include/student.h"
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -130,6 +131,37 @@ Student * read_one_student (FILE * stream, return_code * code)
     return student;
 }
 
+return_code unique_id (Student ** students, size_t count)
+{
+    unsigned int * ids = (unsigned int *)malloc(sizeof(unsigned int) * count);
+    int repeats = 0;
+    if (!ids)
+    {
+        return MEMORY_ERROR;
+    }
+    for (size_t i = 0; i < count; ++i)
+    {
+        ids[i] = students[i]->id;
+        for (size_t j = 0; j < i; ++j)
+        {
+            if (ids[j] == ids[i])
+            {
+                repeats = 1;
+                break;
+            }
+        }
+        if (repeats)
+        {
+            break;
+        }
+    }
+    free(ids);
+    if (repeats)
+    {
+        return INCORRECT_FILE;
+    }
+    return OK;
+}
 
 return_code read_students (FILE * stream, Student *** students, size_t * size, size_t * count)
 {
@@ -187,6 +219,15 @@ return_code read_students (FILE * stream, Student *** students, size_t * size, s
         (*count)++;
     }
 
+    return_code code = unique_id(*students, *count);
+    if (code != OK)
+    {
+        free_students(*students, *count);
+        *students = NULL;
+        *size = 0;
+        *count = 0;
+        return code;
+    }
 
     return OK;
 }

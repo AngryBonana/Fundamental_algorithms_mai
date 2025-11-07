@@ -69,6 +69,17 @@ int main (int argc, char * argv[])
         return code;
     }
 
+    if (count_of_students == 0)
+    {
+        printf("Input file has no students!\n");
+        free_students(students, count_of_students);
+        if (tras)
+        {
+            fclose(output);
+        }
+        return 0;
+    }
+
     sort_status status = NOT_SORTED;
     print_usage();
     bool working = true;
