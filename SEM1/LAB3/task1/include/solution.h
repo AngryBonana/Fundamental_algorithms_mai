@@ -6,7 +6,7 @@ int minus (int num);
 int sum (int x, int y);
 int sub (int x, int y);
 int mult (int x, int y);
-unsigned int remain (unsigned int x, unsigned int y);
-unsigned int div2 (unsigned int x);
+unsigned int rem2 (unsigned int x, unsigned int y);
+unsigned int div2 (unsigned int x, unsigned int pow_of_two);
 
 #endif

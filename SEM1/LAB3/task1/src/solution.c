@@ -24,12 +24,12 @@ int sub (int x, int y)
     return sum(x, minus(y));
 }
 
-unsigned int div2 (unsigned int x)
+unsigned int div2 (unsigned int x, unsigned int pow_of_two)
 {
-    return x >> 1;
+    return x >> pow_of_two;
 }
 
-unsigned int remain (unsigned int x, unsigned int pow_of_two)
+unsigned int rem2 (unsigned int x, unsigned int pow_of_two)
 {
     int move = sub(32, (int)pow_of_two);
     return (x << move) >> move;
@@ -73,16 +73,13 @@ void convert (const unsigned int num, const unsigned int r, char * buf)
         return;
     }
     unsigned int copy_num = num;
-    int base = 2;
 
     int pos = 0;
     while (copy_num != 0)
     {
-        unsigned int rem = remain(copy_num, r);
-        for (int i = 0; i < r; i = sum(i, 1))
-        {
-            copy_num = div2(copy_num);
-        }
+        unsigned int rem = rem2(copy_num, r);
+        copy_num = div2(copy_num, r);
+        
 
         if (rem > 9)
         {
@@ -96,11 +93,10 @@ void convert (const unsigned int num, const unsigned int r, char * buf)
     }
     buf[pos] = '\0';
     pos = sub(pos, 1);
-    for (int i = 0; i < div2(sum(pos, 1)); i = sum(i, 1))
+    for (int i = 0; i < div2(sum(pos, 1), 1); i = sum(i, 1))
     {
         char tmp = buf[i];
         buf[i] = buf[sub(pos, i)];
         buf[sub(pos, i)] = tmp;
     }
-
 }
