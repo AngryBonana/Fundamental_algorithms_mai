@@ -56,7 +56,7 @@ int mult (int x, int y)
 }
 
 
-void convert (const unsigned int num, const unsigned int r, char * buf)
+void convert (const int num, const unsigned int r, char * buf)
 {
     if (r < 1 || r > 5)
     {
@@ -73,7 +73,22 @@ void convert (const unsigned int num, const unsigned int r, char * buf)
         buf[1] = '\0';
         return;
     }
-    unsigned int copy_num = num;
+
+
+    int min_f = 0;
+    int copy_num;
+
+    if (num < 0)
+    {
+        min_f = 1;
+        copy_num = minus(num);
+    }
+    else  
+    {
+        copy_num = num;
+    }
+
+
 
     int pos = 0;
     while (copy_num != 0)
@@ -90,6 +105,11 @@ void convert (const unsigned int num, const unsigned int r, char * buf)
         {
             buf[pos] = (char)sum(rem, (int)'0');
         }
+        pos = sum(pos, 1);
+    }
+    if (min_f)
+    {
+        buf[pos] = '-';
         pos = sum(pos, 1);
     }
     buf[pos] = '\0';

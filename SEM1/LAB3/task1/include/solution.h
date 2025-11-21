@@ -1,7 +1,7 @@
 #ifndef SOLUTION_H
 #define SOLUTION_H
 
-void convert (const unsigned int num, const unsigned int r, char * buf);
+void convert (const int num, const unsigned int r, char * buf);
 int minus (int num);
 int sum (int x, int y);
 int sub (int x, int y);
