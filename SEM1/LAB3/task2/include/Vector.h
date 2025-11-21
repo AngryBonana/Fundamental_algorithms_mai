@@ -1,7 +1,9 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 typedef VECTOR_TYPE (*CopyFuncType)(VECTOR_TYPE);
@@ -19,10 +21,36 @@ typedef struct {
 
 static void resize_if_needed(Vector *v)
 {
+    if (!v)
+    {
+        exit(EXIT_FAILURE);
+    }
     if (v->size >= v->capacity)
     {
-        size_t new_capacity = (v->capacity == 0) ? 1 : v->capacity * 2;
-        VECTOR_TYPE *new_data = realloc(v->data, new_capacity * sizeof(VECTOR_TYPE));
+        size_t new_capacity;
+        switch (v->capacity)
+        {
+            case 0:
+            new_capacity = 1;
+            break;
+            case 1:
+            new_capacity = 2;
+            break;
+            default:
+            new_capacity = v->capacity + v->capacity / 2;
+        }
+        VECTOR_TYPE *new_data = (VECTOR_TYPE *)realloc(v->data, new_capacity * sizeof(VECTOR_TYPE));
+        if (!new_data)
+        {
+            exit(EXIT_FAILURE);
+        }
+        v->data = new_data;
+        v->capacity = new_capacity;
+    }
+    else if (v->size * 4 <= v->capacity && v->size != 0)
+    {
+        size_t new_capacity = v->capacity / 2;
+        VECTOR_TYPE *new_data = (VECTOR_TYPE *)realloc(v->data, new_capacity * sizeof(VECTOR_TYPE));
         if (!new_data)
         {
             exit(EXIT_FAILURE);
@@ -43,7 +71,7 @@ Vector create_vector(size_t initial_capacity, CopyFuncType CopyFunc, DeleteFuncT
 
     if (initial_capacity > 0)
     {
-        v.data = malloc(initial_capacity * sizeof(VECTOR_TYPE));
+        v.data = (VECTOR_TYPE *)malloc(initial_capacity * sizeof(VECTOR_TYPE));
         if (!v.data) 
         {
             exit(EXIT_FAILURE);
@@ -109,7 +137,7 @@ void copy_vector(Vector *dest, const Vector *src)
     }
 
     dest->capacity = src->capacity;
-    dest->data = malloc(dest->capacity * sizeof(VECTOR_TYPE));
+    dest->data = (VECTOR_TYPE *)malloc(dest->capacity * sizeof(VECTOR_TYPE));
 
     if (!dest->data) 
     {
@@ -125,7 +153,7 @@ void copy_vector(Vector *dest, const Vector *src)
 
 Vector *copy_vector_new(const Vector *src)
 {
-    Vector *new_vec = malloc(sizeof(Vector));
+    Vector *new_vec = (Vector *)malloc(sizeof(Vector));
     if (!new_vec) 
     {
         exit(EXIT_FAILURE);
@@ -157,6 +185,7 @@ void delete_at_vector(Vector *v, size_t index)
     }
 
     v->size--;
+    resize_if_needed(v);
 
 }
 
