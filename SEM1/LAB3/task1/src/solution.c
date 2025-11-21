@@ -7,16 +7,17 @@ int minus (int num)
 
 int sum (int x, int y)
 {
-    int res = x | y;
-    int trans = x & y;
-    while (trans != 0)
+    unsigned ux = (unsigned int)x;
+    unsigned uy = (unsigned int)y;
+    
+    while (uy != 0)
     {
-        int res_p = res;
-        res = res ^ trans;
-        trans = (res_p & trans) << 1;
+        unsigned transfer = (ux & uy) << 1;
+        ux = ux ^ uy;
+        uy = transfer;
     }
-
-    return res;
+    
+    return (int)ux;
 }
 
 int sub (int x, int y)
