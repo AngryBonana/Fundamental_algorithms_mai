@@ -65,7 +65,7 @@ Student * read_one_student (FILE * stream, return_code * code)
     }
 
     unsigned int g0, g1, g2, g3, g4;
-    int res = fscanf(stream, "%u %99s %99s %99s %u %u %u %u %u", &id, first_name, last_name, group, &g0, &g1, &g2, &g3, &g4);
+    int res = fscanf(stream, "%u %99s %99s %99s %u %u %u %u %u;", &id, first_name, last_name, group, &g0, &g1, &g2, &g3, &g4);
     if (res == EOF)
     {
         *code = OK;
@@ -163,6 +163,12 @@ return_code unique_id (Student ** students, size_t count)
     return OK;
 }
 
+void clear_buffer_file (FILE * stream)
+{
+    char tmp;
+    while ((tmp = getc(stream)) != '\n' && tmp != EOF);
+}
+
 return_code read_students (FILE * stream, Student *** students, size_t * size, size_t * count)
 {
     if (!stream)
@@ -184,13 +190,18 @@ return_code read_students (FILE * stream, Student *** students, size_t * size, s
         return_code code;
         
         Student * new_student = read_one_student(stream, &code);
-        if (code != OK)
+        if (code == MEMORY_ERROR)
         {
             free_students(*students, *count);
             *students = NULL;
             *size = 0;
             *count = 0;
             return code;
+        }
+        if (code == INCORRECT_FILE)
+        {
+            clear_buffer_file(stream);
+            continue;
         }
         if (new_student == NULL)
         {
